@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="_fragments :: head(~{::title})">
+  <title>搜索</title>
+</head>
+
+<body>
+<!--头部导航-->
+<nav th:replace="/_fragments :: menu(1)">
+
+</nav>
+<div  class="m-container-small m-padded-tb-big">
+  <div class="ui container">
+    <div  class="ui secondary segment form">
+              <form name="search" method="post" class="ui segment form">
+              <div class="inline fields">
+                <div class="field">
+                  <input type="text" name="title" placeholder="标题" id="message">
+                </div>
+                <div class="field">
+                  <div class="ui labeled action input">
+                    <div class="ui type selection dropdown">
+                      <input type="hidden" name="type" id="type">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">分类</div>
+                      <div class="menu">
+                        <div  th:each="type : ${application.types}" th:data-value="${type.id}" th:text="${type.name}" class="item" data-value="1"  ></div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+              </form>
+      <div class="field">
+        <button onclick="query()" type="button" id="search-btn" class="ui mini teal basic button"><i class="search icon"></i>搜索</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<br>
+<br>
+<!--底部footer-->
+<footer th:replace="_fragments :: footer">
+
+</footer>
+
+<th:block th:replace="admin/_fragments :: script">
+
+</th:block>
+
+<script>
+  function query(){
+    var message=$('#message').val()
+    var type=$('#type').val()
+    location.href="/blog/find?message="+message+"&type="+type
+  }
+
+  $('.menu.toggle').click(function () {
+    $('.m-item').toggleClass('m-mobile-hide');
+  });
+
+  $('.ui.dropdown').dropdown({
+    on : 'hover'
+  });
+
+  //消息提示关闭初始化
+  $('.message .close')
+          .on('click', function () {
+            $(this)
+                    .closest('.message')
+                    .transition('fade');
+          });
+
+</script>
+</body>
+</html>

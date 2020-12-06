@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <bean id="txManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+<!--默认值：支持当前事务，如果当前没有事务，就新建一个事务。使用数据库默认的事务隔离级别-->
+            <tx:method name="add*" isolation="READ_COMMITTED"/>
+            <tx:method name="find*"/>
+            <tx:method name="del*" isolation="SERIALIZABLE"/>
+<!--花费最高代价但是最可靠的事务隔离级别。事务被处理为顺序执行。除了防止脏读，不可重复读外，还避免了幻像读。-->
+            <tx:method name="update*" isolation="SERIALIZABLE"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <aop:pointcut id="allManagerMethod" expression="execution (* myblog.service.impl.*ServicesImpl.*(..))" />
+        <aop:advisor advice-ref="txAdvice"  pointcut-ref="allManagerMethod" />
+    </aop:config>
+</beans>

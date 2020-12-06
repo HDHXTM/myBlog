@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="/_fragments :: head(~{::title})">
+  <title>博客管理</title>
+</head>
+<script>
+    function del(title,id){
+        if(confirm("真的要删除"+title+"？"))
+        {
+            $.ajax({
+                type: "get",
+                url: "/blog/del/"+id,
+                success: function (data) {
+                    if (data.msg==='success')
+                        history.go(0);
+                    else
+                        alert(data.msg)
+                }
+            });
+        }
+    }
+</script>
+<body>
+
+  <!--头部导航-->
+  <nav th:replace="/_fragments :: menu(1)">
+
+  </nav>
+
+<!--  <div class="ui attached pointing menu">-->
+<!--    <div class="ui container">-->
+<!--      <div class="right menu">-->
+<!--        <a href="#" th:href="@{/toAddBlog}" class=" item">发布</a>-->
+<!--        <a href="" class="teal active item">列表</a>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+
+  <!--中间内容-->
+  <div  class="m-container-small m-padded-tb-big">
+    <div class="ui container">
+
+      <div  class="ui secondary segment form">
+          <div sec:authorize="hasRole('user')" th:if="${session.user.id==userId}">
+            <div class="inline fields">
+              <div class="field">
+                  <a th:href="@{/toChangePwd}">修改密码</a>
+              </div>
+            <div class="field">
+                <a th:href="@{/user/toChangeImg/}+${userId}">修改头像</a>
+            </div>
+            </div>
+          </div>
+          <img s>
+      <div id="table-container" th:if="${#arrays.length(pageInfo.list)}!=0">
+        <table  th:fragment="blogList" class="ui compact teal table">
+          <thead>
+          <tr>
+            <th></th>
+            <th>标题</th>
+            <th>类型</th>
+<!--            <th>推荐</th>-->
+<!--            <th>状态</th>-->
+            <th>更新时间</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="blog, iterStat : ${pageInfo.list}">
+<!--            iterStat是状态变量，属性有：
+index:当前迭代对象的 index（从0开始计算）
+count: 当前迭代对象的 index(从1开始计算)
+size:被迭代对象的大小
+current:当前迭代变量
+even/odd:布尔值，当前循环是否是偶数/奇数（从0开始计算）
+first:布尔值，当前循环是否是第一个
+last:布尔值，当前循环是否是最后一个-->
+            <td th:text="${iterStat.count}">1</td>
+            <td><a th:href="@{/blog/}+${blog.id}" th:text="${blog.title}" style="color: black"></a></td>
+            <td th:text="${blog.type}">认知升级</td>
+<!--            <td th:text="${blog.recommend} ? '是':'否'">是</td>-->
+<!--            <td th:text="${blog.published} ? '发布':'草稿'">发布</td>-->
+            <td th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2020-3-02</td>
+<!--            本人可操作-->
+            <td th:if="${session.user.id==blog.user.id}" sec:authorize="hasRole('user')">
+              <a href="#" th:href="@{/blog/update/{id}(id=${blog.id})}" class="ui mini teal basic button">编辑</a>
+              <button th:onclick="del([[${blog.title}]],[[${blog.id}]]);" class="ui mini red basic button">删除</button>
+            </td>
+
+<!--            管理员可操作-->
+            <td sec:authorize="hasRole('admin')">
+              <a href="#" th:href="@{/blog/update/{id}(id=${blog.id})}" class="ui mini teal basic button">编辑</a>
+                <button th:onclick="del([[${blog.title}]],[[${blog.id}]]);" class="ui mini red basic button">删除</button>
+            </td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <th colspan="7">
+              <div class="ui mini pagination menu"  >
+<!--                <div class="item"><a th:href="@{/admin/blogs}">首页</a></div>-->
+<!--                  <div class="itth:href="@{/tag/{activeTagId}?pageNum={pageNum}(activeTagId=${activeTagId},pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a></div>-->
+                  <div class="item"><a th:href="@{/user/homePage/{userId}?pageNum={pageNum}(userId=${userId},pageNum=${pageInfo.hasPreviousPage}?${pageInfo.prePage}:1)}">上一页</a></div>
+                <div class="item"><a th:href="@{/user/homePage/{userId}?pageNum={pageNum}(userId=${userId},pageNum=${pageInfo.hasNextPage}?${pageInfo.nextPage}:${pageInfo.pages})}">下一页</a></div>
+                <div class="item"><a th:href="@{/user/homePage/{userId}?pageNum={pageNum}(userId=${userId},pagenum=${pageInfo.pages})}">尾页</a></div>
+              </div>
+              <a href="#"  th:href="@{/toAddBlog}" class="ui mini right floated teal basic button">新增</a>
+            </th>
+          </tr>
+          </tfoot>
+        </table>
+        <div class="ui segment m-inline-block">
+          <p >当前第<span th:text="${pageInfo.pageNum}"></span>页，总<span th:text="${pageInfo.pages}"></span>页，共<span th:text="${pageInfo.total}"></span>条记录</p>
+        </div>
+
+      </div>
+          <p th:if="${#arrays.length(pageInfo.list)}==0">这个人没有发过帖子</p>
+    </div>
+  </div>
+  </div>
+
+  <br>
+  <br>
+
+  <!--底部footer-->
+  <footer th:replace="_fragments :: footer">
+
+  </footer>
+
+  <th:block th:replace="_fragments :: script">
+
+  </th:block>
+
+  <script>
+
+    $('.menu.toggle').click(function () {
+      $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+      on : 'hover'
+    });
+
+    //消息提示关闭初始化
+    $('.message .close')
+      .on('click', function () {
+        $(this)
+          .closest('.message')
+          .transition('fade');
+      });
+
+  </script>
+
+</body>
+</html>

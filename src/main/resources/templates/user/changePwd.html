@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="admin/_fragments :: head(~{::title})">
+    <title>修改密码</title>
+</head>
+
+<body class="login-bg">
+
+<br>
+<br>
+<br>
+<div class="m-container-small m-padded-tb-massive disabled" style="max-width: 30em !important;">
+    <div class="ur container">
+        <div class="ui middle aligned center aligned grid">
+            <div class="column">
+                <h2 class="ui teal image header">
+                    <div class="content">
+                        修改密码
+                    </div>
+                </h2>
+                <!--                <form class="ui large form" method="post" action="#" th:action="@{/user/register}">-->
+                <form class="ui large form" id="pwdForm">
+                    <div class="ui  segment">
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input type="text" name="logName" id="logName" placeholder="用户名">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" name="pwd" placeholder="新密码">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" name="password2" placeholder="再次确认密码">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="email" name="email" id="email" placeholder="邮箱">
+
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="text" name="code" placeholder="验证码">
+                                <button id="send" style="width: 110px;height: 37px;line-height: 37px;text-align: center;outline: none;border: none;background-color: #00b5ad;color: #fff;font-size: 1rem;font-weight: 600;border-radius: 7px;cursor: pointer;">发送验证码</button>
+                            </div>
+                        </div>
+                        <button class="ui fluid large teal submit button" id="registerBtn">修   改</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--/*/<th:block th:replace="_fragments :: script">/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+
+<script>
+    $("#registerBtn").click(function (){
+        var data = $("#pwdForm").serialize();//序列化表单信息
+        $.ajax({
+            type: "post",
+            url: "/user/changePwd?t" + new Date().getTime(),
+            data: data,
+            dataType: 'json',
+            success: function (data) {
+                if(data.msg!=="success")
+                    alert(data.msg)
+                else {
+                    alert("修改成功！")
+                    location.href="/toLogin"
+                }
+            }
+        });
+        return false;
+    })
+    $('#send').click(function (){
+        // let n = 120;
+        let n = 2;
+        let timer = null;
+            clearInterval(timer);
+            timer = setInterval(()=>{
+                this.innerText = `发送验证码(${--n})`;
+                this.disabled = 'disabled';
+                if (n === 0){
+                    clearInterval(timer);
+                    this.removeAttribute("disabled");
+                    this.innerText = `发送验证码`;
+                }
+            },1000);
+            var email = $('#email').val();
+            var logName = $('#logName').val();
+            $.ajax({
+                type: "get",
+                url: "/mailVerifyCode?email="+email+"&logName="+logName,
+                success: function (data) {
+                    if (data.msg!==undefined)
+                        alert(data.msg);
+                }
+            });
+            return false;
+    });
+
+
+</script>
+
+
+</body>
+</html>

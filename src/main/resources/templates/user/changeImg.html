@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <title>修改头像</title>
+</head>
+<body>
+<!--头部导航-->
+<nav th:replace="/_fragments :: menu(1)">
+
+</nav>
+
+<div class="m-container-small m-padded-tb-big">
+    <div  class="ui secondary segment form" align="center">
+        <img th:src="${user.img}" ><br>
+        <form th:action="@{/user/changeImg/}+${user.id}" method="post" enctype="multipart/form-data">
+            选择文件：<input type="file" name="photo">
+            <input type="submit">
+        </form>
+        <br>
+    </div>
+
+
+</div>
+
+<!--底部footer-->
+<footer th:replace="_fragments :: footer">
+
+</footer>
+
+<th:block th:replace="_fragments :: script">
+
+</th:block>
+</body>
+</html>
