@@ -1,18 +1,17 @@
 package myblog.config;
 
-import myblog.service.impl.userDetailsServiceImp;
+import myblog.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 public class Security extends WebSecurityConfigurerAdapter {
     @Autowired
-    private userDetailsServiceImp userDetailsServiceImp;
+    private UserDetailsServiceImpl userDetailsServiceImpl;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -60,7 +59,7 @@ public class Security extends WebSecurityConfigurerAdapter {
     //    springboot2.1+/Security5.0+需要设置passwordEncoder
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsServiceImp).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(bCryptPasswordEncoder);
     }
 
 }

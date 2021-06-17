@@ -31,12 +31,12 @@ public class UserController {
     @Autowired
     private HttpServletRequest request;
 
-    private Map<String,String> map=new HashMap<>();
 
     @RequestMapping("/register")
     @ResponseBody
     public Map<String,String> register(User user,String mailCode)
     {
+        HashMap<String, String> map = new HashMap<>();
         HttpSession session = request.getSession();
         String correctCode=(String) session.getAttribute("mailCode");
 //        String correctCode="1";
@@ -59,6 +59,7 @@ public class UserController {
     @ResponseBody
     public Map<String,String> changePwd(User user,String code)
     {
+        HashMap<String, String> map = new HashMap<>();
         HttpSession session = request.getSession();
         String correctCode=(String) session.getAttribute("mailCode");
 //        String correctCode="1";
@@ -102,11 +103,11 @@ public class UserController {
     @RequestMapping("/changeImg/{userId}")
 //MultipartFile upload名称与<input type="file" name="upload">一致
     public String changeImg(MultipartFile photo,@PathVariable("userId") Integer userId) throws Exception {
-        Map<String, String> result = UploadFileUtil.uploadPhoto(photo, "E:\\java\\myBlog\\src\\main\\resources\\static\\userImg");
+        Map<String, String> result = UploadFileUtil.uploadPhoto(photo, "D:\\study\\java\\myBlog\\target\\classes\\static\\userImg");
         String success = result.get("success");
-        String msg=result.get("msg");
-        System.out.println("success:"+success);
-        System.out.println("msg"+msg);
+//        String msg=result.get("msg");
+//        System.out.println("success:"+success);
+//        System.out.println("msg"+msg);
         if ("1".equals(success)){
             String photoName = result.get("photoName");
             userService.changeImgById(userId,photoName);

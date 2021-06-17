@@ -4,6 +4,7 @@ package myblog.config;
 import myblog.interceptor.SelfInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -18,4 +19,5 @@ public class MVCConfig implements WebMvcConfigurer {
         registry.addInterceptor(selfInterceptor)
         .addPathPatterns("/comment/del/**","/blog/update/**","/blog/del/**","/user/changeImg/**");
     }
+    
 }

@@ -31,16 +31,16 @@ public class UserServicesImpl implements UserService {
 
     @Override
     public int changePwd(String logName, String pwd) {
-        return userDao.changePwd(logName,pwd);
+        return userDao.changePwd(logName,bCryptPasswordEncoder.encode(pwd));
     }
 
     @Override
     public void addUser(User user) {
 //        默认头像
-        user.setImg("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584367404804&di=070c78aac95428c480b480a87b534e96&imgtype=0&src=http%3A%2F%2Fbbs.cnlinfo.net%2Fup%2Ftou%2F150611164743.jpg");
+        user.setImg("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2594671789,2155354930&fm=11&gp=0.jpg");
 //        加密密码
         user.setPwd(bCryptPasswordEncoder.encode(user.getPwd()));
-//        角色在dao，强制设为2（普通用户）
+//        角色权限在dao，强制设为2（普通用户）
         userDao.addUser(user);
     }
 }

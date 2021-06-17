@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="/_fragments :: head(~{::title})">
-  <title>博客管理</title>
+  <title>帖子管理</title>
 </head>
 <script>
     function del(title,id){
@@ -43,7 +43,7 @@
     <div class="ui container">
 
       <div  class="ui secondary segment form">
-          <div sec:authorize="hasRole('user')" th:if="${session.user.id==userId}">
+          <div sec:authorize="hasAnyRole('user','admin')" th:if="${session.user.id==userId}">
             <div class="inline fields">
               <div class="field">
                   <a th:href="@{/toChangePwd}">修改密码</a>

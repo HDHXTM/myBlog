@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="_fragments :: head(~{::title})">
-    <title>博客详情</title>
+    <title>帖子详情</title>
 </head>
 <script>
 
@@ -14,7 +14,7 @@
                 url: "/blog/del/"+id,
                 success: function (data) {
                     if (data.msg==='success')
-                        history.go(0);
+                        history.go(-1);
                     else
                         alert(data.msg)
                 }

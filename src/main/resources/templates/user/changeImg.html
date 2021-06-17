@@ -12,7 +12,7 @@
 
 <div class="m-container-small m-padded-tb-big">
     <div  class="ui secondary segment form" align="center">
-        <img th:src="${user.img}" ><br>
+        <img th:src="${user.img}" width="600" height="400"><br>
         <form th:action="@{/user/changeImg/}+${user.id}" method="post" enctype="multipart/form-data">
             选择文件：<input type="file" name="photo">
             <input type="submit">

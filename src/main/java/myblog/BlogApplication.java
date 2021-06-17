@@ -8,7 +8,6 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.servlet.http.HttpServletRequest;
 
 //开启多线程支持
 @EnableAsync

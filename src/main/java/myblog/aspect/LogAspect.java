@@ -14,6 +14,7 @@ import java.util.Arrays;
 //日志
 @Aspect    //定义切面
 @Component
+
 public class LogAspect {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -50,7 +51,7 @@ public class LogAspect {
 //
 //        //打印返回值
 //        logger.info("Result: {}", result);
-//    }
+//    }`
 
 
     public class RequestLog{      //用于封装请求信息

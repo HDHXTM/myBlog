@@ -35,7 +35,7 @@ public class SelfInterceptor implements HandlerInterceptor {
 //            操作评论
             if("comment".equals(req))
                 AuthorId = commentServices.findAuthorByCommentId(id);
-//            操作博客
+//            操作帖子
             else if("blog".equals(req))
                 AuthorId = blogServices.findAuthorByBlogId(id);
 //            操作用户

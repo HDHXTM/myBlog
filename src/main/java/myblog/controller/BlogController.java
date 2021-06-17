@@ -29,10 +29,20 @@ public class BlogController {
     @Autowired
     private HttpServletRequest request;
 
-    private Map<String,String> map= new HashMap<String,String>();
 
     @RequestMapping("/findAll")
     public ModelAndView findAll(@RequestParam(defaultValue = "1",value = "pageNum")int pageNum)
+    {
+        ModelAndView mv = new ModelAndView();
+        PageInfo pageInfo = blogServices.findAll(pageNum, 5);
+        mv.addObject("pageInfo",pageInfo);
+        mv.setViewName("index");
+        return mv;
+    }
+
+    @RequestMapping("/findAll2")
+    @ResponseBody
+    public ModelAndView findAll2(@RequestParam(defaultValue = "1",value = "pageNum")int pageNum)
     {
         ModelAndView mv = new ModelAndView();
         PageInfo pageInfo = blogServices.findAll(pageNum, 5);
@@ -63,9 +73,9 @@ public class BlogController {
         return mv;
     }
 
-//    博客详情
+//    帖子详情
     @RequestMapping("/{id}")
-    public ModelAndView detail(@PathVariable("id") int id)
+    public ModelAndView detail(@PathVariable("id") Integer id)
     {
         Blog blog = blogServices.findById(id);
         ModelAndView mv = new ModelAndView();
@@ -77,6 +87,7 @@ public class BlogController {
     @RequestMapping("/del/{id}")
     @ResponseBody
     public Map<String,String> del(@PathVariable("id") Integer id){
+        HashMap<String, String> map = new HashMap<>();
         try {
             blogServices.deleteById(id);
         } catch (Exception e) {
@@ -112,6 +123,7 @@ public class BlogController {
     @RequestMapping("/save")
     @ResponseBody
     public Map<String,String> save(Blog blog,Integer[] tagsId){
+        HashMap<String, String> map = new HashMap<>();
 //        是修改
         if (blog.getId()!=null) {
             try {

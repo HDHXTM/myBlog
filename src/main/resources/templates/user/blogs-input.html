@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="/_fragments :: head(~{::title})">
-  <title>博客发布</title>
+  <title>发帖</title>
 </head>
 
 <body>
@@ -68,7 +68,7 @@
                 <i class="dropdown icon"></i>
                 <div class="default text">标签</div>
                 <div class="menu">
-                  <div th:each="tag : ${application.tags}" class="item" data-value="1" th:data-value="${tag.id}" th:text="${tag.name}">java</div>
+                  <div th:each="tag : ${application.tags}" class="item"  th:data-value="${tag.id}" th:text="${tag.name}">java</div>
                 </div>
               </div>
             </div>
@@ -84,7 +84,7 @@
 
         <div class="required field">
           <div id="md-content" style="z-index: 1 !important;">
-           <textarea name="content" th:text="${blog}!=null?${blog.content}:null" placeholder="博客内容..." maxlength="300"></textarea>
+           <textarea name="content" th:text="${blog}!=null?${blog.content}:null" placeholder="帖子内容..." maxlength="300"></textarea>
           </div>
         </div>
 
@@ -176,10 +176,12 @@
         var data = $("#blog-form").serialize();//序列化表单信息
         $.ajax({
             type: "post",
-            url: "/blog/save?t" + new Date().getTime(),
+            url: "/blog/save",
             data: data,
             dataType: 'json',
             success: function (data) {
+                console.log(data)
+                alert(data.msg)
                 history.go(-1);
             }
         });
@@ -199,35 +201,35 @@
           identifier: 'title',
           rules: [{
             type : 'empty',
-            prompt: '标题：请输入博客标题'
+            prompt: '标题：请输入帖子标题'
           }]
         },
         content : {
           identifier: 'content',
           rules: [{
             type : 'empty',
-            prompt: '标题：请输入博客内容'
+            prompt: '标题：请输入帖子内容'
           }]
         },
         typeId : {
           identifier: 'type.id',
           rules: [{
             type : 'empty',
-            prompt: '标题：请输入博客分类'
+            prompt: '标题：请输入帖子分类'
           }]
         },
         firstPicture : {
           identifier: 'firstPicture',
           rules: [{
             type : 'empty',
-            prompt: '标题：请输入博客首图'
+            prompt: '标题：请输入帖子首图'
           }]
         },
         description : {
           identifier: 'description',
           rules: [{
             type : 'empty',
-            prompt: '标题：请输入博客描述'
+            prompt: '标题：请输入帖子描述'
           }]
         }
       }

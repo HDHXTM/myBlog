@@ -40,24 +40,21 @@ public class BlogServicesImpl implements BlogServices {
     public PageInfo findBlogByTagId(int pageNum, int pageSize, int id) {
         PageHelper.startPage(pageNum,pageSize);
         List<Blog> list=blogDao.findBlogByTagId(id);
-        PageInfo pageInfo = new PageInfo(list);
-        return pageInfo;
+        return new PageInfo(list);
     }
 
     @Override
     public PageInfo findBlogByTypeId(int pageNum, int pageSize, int id) {
         PageHelper.startPage(pageNum,pageSize);
         List<Blog> list=blogDao.findBlogByTypeId(id);
-        PageInfo pageInfo = new PageInfo(list);
-        return pageInfo;
+        return new PageInfo(list);
     }
 
     @Override
     public PageInfo findAll(int pageNum,int pageSize) {
         PageHelper.startPage(pageNum,pageSize);
         List<Blog> blogs = blogDao.findAll();
-        PageInfo pageInfo = new PageInfo(blogs);
-        return pageInfo;
+        return new PageInfo(blogs);
     }
 
     @Override
@@ -79,8 +76,7 @@ public class BlogServicesImpl implements BlogServices {
             list=blogDao.findByNameAndType(message,type);
         else
             list=blogDao.findByName(message);
-        PageInfo pageInfo = new PageInfo(list);
-        return pageInfo;
+        return new PageInfo(list);
     }
 
     @Override

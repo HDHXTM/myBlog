@@ -33,13 +33,13 @@ public class SystemController {
     @Autowired
     private HttpServletRequest request;
 
-    private Map<String,String> map=new HashMap<>();
 
 
 //    邮箱验证码
     @GetMapping("/mailVerifyCode")
     @ResponseBody
     public Map<String,String> mailVerifyCode(String email,String logName){
+        HashMap<String, String> map = new HashMap<>();
         String code=null;
 //        当logName空时，（logName==null）=false！！！（"".equals(logName) )=true!!!
 
@@ -76,6 +76,7 @@ public class SystemController {
     @ResponseBody
     public Map<String,String> checkImgCode(@PathVariable String imgCode)
     {
+        HashMap<String, String> map = new HashMap<>();
         HttpSession session = request.getSession();
         String correctCode = (String) session.getAttribute("imgCode");
 //        System.out.println("correctCode"+correctCode);

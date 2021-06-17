@@ -12,7 +12,7 @@ public interface BlogDao {
     int deleteById(Integer id);
 
     //当id为自增时，加入@Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
-    //对blog对象赋值自增id
+    //mybatis会对blog对象赋值自增id
     @Insert("insert into blog(title, content, picture, createTime, updateTime, type, author) VALUES " +
             " (#{title},#{content},#{picture},#{createTime},#{updateTime},#{type},#{user.id}) ")
     @Options(useGeneratedKeys = true,keyProperty = "id",keyColumn = "id")
@@ -36,7 +36,7 @@ public interface BlogDao {
 
     @Select("select DISTINCT blog.id blogId,blog.title,blog.picture,blog.updateTime,blog.createTime,type.name type,user.nickName,user.img,user.id userId " +
             "from blog,blog_tag,tag,type,user where " +
-            "blog.id=blog_tag.blogId and blog.type=type.id and blog.author=user.id and blog_tag.tagId=tag.id order by blog.createTime ")
+            "blog.id=blog_tag.blogId and blog.type=type.id and blog.author=user.id and blog_tag.tagId=tag.id order by blog.id desc")
     @ResultMap(value = "blog")
     List<Blog> findAll();
 

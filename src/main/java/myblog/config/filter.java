@@ -10,8 +10,8 @@
 //import javax.servlet.http.HttpServletResponse;
 //import java.io.IOException;
 //
-////所有请求都要从这里过，玩个屁
-//public class filters extends OncePerRequestFilter {
+////security+验证码拦截器
+//public class filter extends OncePerRequestFilter {
 //
 //    @Override
 //    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
