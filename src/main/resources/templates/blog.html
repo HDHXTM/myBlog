@@ -150,8 +150,8 @@
                                     <a class="reply" data-commentid="1" data-commentnickname="Matt"
                                        th:attr="data-touserid=${comment.user.id},data-parentid=${comment.id},data-commentnickname=${comment.user.nickName}"
                                        onclick="reply(this)">回复</a>
-                                    <button th:if="${session.user.id}==${comment.user.id}" th:onclick="delComment([[${comment.id}]])">删除</button>
-                                    <button sec:authorize="hasRole('admin')" th:onclick="delComment([[${comment.id}]])">删除</button>
+                                    <button sec:authorize="hasRole('admin')" th:if="${session.user.id}==${comment.user.id}" th:onclick="delComment([[${comment.id}]])">删除</button>
+<!--                                    <button  th:onclick="delComment([[${comment.id}]])">删除</button>-->
                                 </div>
                             </div>
 
@@ -179,8 +179,7 @@
                                             <a class="reply" data-commentid="1" data-commentnickname="Matt"
                                                th:attr="data-touserid=${reply.user.id},data-parentid=${comment.id},data-commentnickname=${reply.user.nickName}"
                                                onclick="reply(this)">回复</a>
-                                            <button th:if="${session.user.id}==${reply.user.id}" th:onclick="delComment([[${reply.id}]])">删除</button>
-                                            <button sec:authorize="hasRole('admin')" th:onclick="delComment([[${reply.id}]])">删除</button>
+                                            <button sec:authorize="hasRole('admin')" th:if="${session.user.id}==${reply.user.id}" th:onclick="delComment([[${reply.id}]])">删除</button>
                                         </div>
                                     </div>
                                 </div>

@@ -19,5 +19,13 @@ public class MVCConfig implements WebMvcConfigurer {
         registry.addInterceptor(selfInterceptor)
         .addPathPatterns("/comment/del/**","/blog/update/**","/blog/del/**","/user/changeImg/**");
     }
-    
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .allowCredentials(true);
+    }
 }

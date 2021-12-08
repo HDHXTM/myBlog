@@ -103,11 +103,10 @@ public class UserController {
     @RequestMapping("/changeImg/{userId}")
 //MultipartFile upload名称与<input type="file" name="upload">一致
     public String changeImg(MultipartFile photo,@PathVariable("userId") Integer userId) throws Exception {
-        Map<String, String> result = UploadFileUtil.uploadPhoto(photo, "D:\\study\\java\\myBlog\\target\\classes\\static\\userImg");
+        String projectPath = System.getProperty("user.dir");
+        String path = projectPath + "\\target\\classes\\static\\userImg";
+        Map<String, String> result = UploadFileUtil.uploadPhoto(photo, path);
         String success = result.get("success");
-//        String msg=result.get("msg");
-//        System.out.println("success:"+success);
-//        System.out.println("msg"+msg);
         if ("1".equals(success)){
             String photoName = result.get("photoName");
             userService.changeImgById(userId,photoName);
@@ -117,6 +116,5 @@ public class UserController {
         }
         else
             return "error/error";
-
     }
 }

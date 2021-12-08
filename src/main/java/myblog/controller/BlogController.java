@@ -29,6 +29,20 @@ public class BlogController {
     @Autowired
     private HttpServletRequest request;
 
+    @RequestMapping("/findAll2")
+    @ResponseBody
+    public PageInfo findAll2(@RequestParam(defaultValue = "1",value = "pageNum")int pageNum)
+    {
+        return blogServices.findAll(pageNum, 5);
+    }
+
+    @RequestMapping("/id/{id}")
+    @ResponseBody
+    public Blog detail2(@PathVariable("id") Integer id)
+    {
+        return blogServices.findById(id);
+    }
+
 
     @RequestMapping("/findAll")
     public ModelAndView findAll(@RequestParam(defaultValue = "1",value = "pageNum")int pageNum)
@@ -40,16 +54,7 @@ public class BlogController {
         return mv;
     }
 
-    @RequestMapping("/findAll2")
-    @ResponseBody
-    public ModelAndView findAll2(@RequestParam(defaultValue = "1",value = "pageNum")int pageNum)
-    {
-        ModelAndView mv = new ModelAndView();
-        PageInfo pageInfo = blogServices.findAll(pageNum, 5);
-        mv.addObject("pageInfo",pageInfo);
-        mv.setViewName("index");
-        return mv;
-    }
+
 
     /**
      *
@@ -83,6 +88,8 @@ public class BlogController {
         mv.setViewName("blog");
         return mv;
     }
+
+
 
     @RequestMapping("/del/{id}")
     @ResponseBody
