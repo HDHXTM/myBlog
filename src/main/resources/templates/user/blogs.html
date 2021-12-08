@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="/_fragments :: head(~{::title})">
+<head th:replace="_fragments :: head(~{::title})">
   <title>帖子管理</title>
 </head>
 <script>
@@ -24,7 +24,7 @@
 <body>
 
   <!--头部导航-->
-  <nav th:replace="/_fragments :: menu(1)">
+  <nav th:replace="_fragments :: menu(1)">
 
   </nav>
 

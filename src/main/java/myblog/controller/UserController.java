@@ -87,7 +87,7 @@ public class UserController {
         PageInfo pageInfo=blogServices.findBlogByUserId(pageNum,5,id);
         mv.addObject("pageInfo",pageInfo);
         mv.addObject("userId",id);
-        mv.setViewName("/user/blogs");
+        mv.setViewName("user/blogs");
         return mv;
     }
 
@@ -96,7 +96,7 @@ public class UserController {
         ModelAndView mv = new ModelAndView();
         User user=userService.findById(userId);
         mv.addObject("user",user);
-        mv.setViewName("/user/changeImg");
+        mv.setViewName("user/changeImg");
         return mv;
     }
 
@@ -112,7 +112,7 @@ public class UserController {
             userService.changeImgById(userId,photoName);
             User user = (User) request.getSession().getAttribute("user");
             user.setImg(photoName);
-            return "redirect:/user/homePage/"+userId;
+            return "redirect:user/homePage/"+userId;
         }
         else
             return "error/error";

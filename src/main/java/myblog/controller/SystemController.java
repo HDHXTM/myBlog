@@ -90,7 +90,7 @@ public class SystemController {
     }
 
     @RequestMapping({"/","/index","/index.html"})
-    public String index(){ return "redirect:/blog/findAll";}
+    public String index(){ return "redirect:blog/findAll";}
 
     @RequestMapping("/toLogin")
     public String toLogin(){return "user/login";}
